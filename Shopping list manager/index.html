@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Shopping List Manager</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="app-shell">
+    <header class="topbar">
+      <div>
+        <p class="eyebrow">Smart Shopping Dashboard</p>
+        <h1>Shopping List Manager</h1>
+      </div>
+      <div class="top-actions">
+        <div class="summary-pill">
+          <span>Active list:</span>
+          <strong id="activeListName">Loading...</strong>
+        </div>
+        <button id="themeToggle" class="icon-button" aria-label="Toggle dark mode">
+          <span>🌙</span>
+          <span>Dark Mode</span>
+        </button>
+      </div>
+    </header>
+
+    <main class="dashboard-grid">
+      <section class="card stats-card">
+        <div class="card-header">
+          <h2>Shopping Stats</h2>
+          <p>Keep track of every purchase instantly.</p>
+        </div>
+        <div class="stats-grid">
+          <article class="stat-card">
+            <p>Total Items</p>
+            <h3 id="statTotalItems">0</h3>
+          </article>
+          <article class="stat-card">
+            <p>Purchased</p>
+            <h3 id="statPurchased">0</h3>
+          </article>
+          <article class="stat-card">
+            <p>Pending</p>
+            <h3 id="statPending">0</h3>
+          </article>
+          <article class="stat-card">
+            <p>Total Cost</p>
+            <h3 id="statTotalCost">₹0</h3>
+          </article>
+        </div>
+      </section>
+
+      <section class="card form-card">
+        <div class="card-header">
+          <h2>Add Shopping Item</h2>
+          <p>Quickly save items to your current list.</p>
+        </div>
+        <form id="itemForm" class="item-form">
+          <div class="field-row">
+            <label for="itemName">Item name</label>
+            <input id="itemName" type="text" placeholder="E.g. Almond milk" required />
+          </div>
+          <div class="field-row split">
+            <div>
+              <label for="itemCategory">Category</label>
+              <select id="itemCategory">
+                <option value="Dairy">Dairy</option>
+                <option value="Produce">Produce</option>
+                <option value="Bakery">Bakery</option>
+                <option value="Beverages">Beverages</option>
+                <option value="Household">Household</option>
+                <option value="Snacks">Snacks</option>
+              </select>
+            </div>
+            <div>
+              <label for="itemQuantity">Quantity</label>
+              <input id="itemQuantity" type="number" min="1" value="1" />
+            </div>
+          </div>
+          <div class="field-row">
+            <label for="itemCost">Estimated cost (₹)</label>
+            <input id="itemCost" type="number" min="0" step="0.5" value="0" />
+          </div>
+          <button type="submit" class="primary-btn">Add Item</button>
+        </form>
+      </section>
+
+      <section class="card budget-card">
+        <div class="card-header">
+          <h2>Smart Budget Tracker</h2>
+          <p>Set a budget and stay within the plan.</p>
+        </div>
+        <div class="budget-body">
+          <div class="field-row">
+            <label for="budgetInput">Budget (₹)</label>
+            <input id="budgetInput" type="number" min="0" step="50" value="3000" />
+          </div>
+          <button id="budgetSaveBtn" class="secondary-btn">Save Budget</button>
+          <div class="budget-summary">
+            <div>
+              <span>Budget</span>
+              <strong id="budgetAmount">₹0</strong>
+            </div>
+            <div>
+              <span>Estimated Total</span>
+              <strong id="estimatedCost">₹0</strong>
+            </div>
+            <div>
+              <span>Remaining</span>
+              <strong id="remainingBudget">₹0</strong>
+            </div>
+          </div>
+          <div class="progress-wrapper">
+            <div id="budgetProgress" class="progress-bar"></div>
+          </div>
+          <p id="budgetAlert" class="budget-alert"></p>
+        </div>
+      </section>
+
+      <section class="card insight-card">
+        <div class="card-header">
+          <h2>Shopping Insights</h2>
+          <p>Personalized suggestions for smarter shopping.</p>
+        </div>
+        <div id="insightList" class="insight-list">
+          <div class="insight-item">Loading insights...</div>
+        </div>
+      </section>
+
+      <section class="card list-card list-panel">
+        <div class="card-header panel-header">
+          <div>
+            <h2>Manage Lists</h2>
+            <p>Switch between saved shopping lists.</p>
+          </div>
+          <button id="newListBtn" class="secondary-btn">New List</button>
+        </div>
+        <div class="list-controls">
+          <select id="listSelector"></select>
+          <button id="saveListBtn" class="secondary-btn">Save Current List</button>
+        </div>
+        <div class="panel-actions">
+          <input id="searchInput" type="search" placeholder="Search by item name" />
+          <select id="statusFilter">
+            <option value="all">All items</option>
+            <option value="pending">Pending</option>
+            <option value="purchased">Purchased</option>
+          </select>
+          <select id="sortCategory">
+            <option value="none">Sort by category</option>
+            <option value="Dairy">Dairy</option>
+            <option value="Produce">Produce</option>
+            <option value="Bakery">Bakery</option>
+            <option value="Beverages">Beverages</option>
+            <option value="Household">Household</option>
+            <option value="Snacks">Snacks</option>
+          </select>
+        </div>
+        <div id="itemList" class="item-list"></div>
+      </section>
+    </main>
+  </div>
+  <div id="modalBackdrop" class="modal-backdrop hidden">
+    <div class="modal-card">
+      <h2>Create New List</h2>
+      <p>Give your list a name and start organizing.</p>
+      <input id="newListName" type="text" placeholder="Weekly Groceries" />
+      <div class="modal-actions">
+        <button id="cancelNewList" class="secondary-btn">Cancel</button>
+        <button id="confirmNewList" class="primary-btn">Create List</button>
+      </div>
+    </div>
+  </div>
+  <script src="script.js"></script>
+</body>
+</html>
